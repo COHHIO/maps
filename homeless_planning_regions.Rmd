@@ -1,7 +1,7 @@
 ---
-title: "Ohio Balance of State CoC Homeless Planning Regions"
-author: "COHHIO"
-date: "6/22/2020"
+title:
+author:
+date:
 output: html_document
 ---
 ```{r setup, include=FALSE}
@@ -37,12 +37,12 @@ counties_regions_table <- read.csv("data/counties_and_regions.csv")
 
 ```
 
-```{r map}
+```{r map, include=FALSE}
 map <- leaflet(counties_shp) %>%
-  #addProviderTiles(providers$CartoDB.PositronNoLabels) %>% 
-  addPolygons(color = "black", 
-              weight = 1, 
-              opacity = .3, 
+  addProviderTiles(providers$CartoDB.PositronNoLabels) %>% 
+  addPolygons(color = "white", 
+              weight = 2, 
+              opacity = 0, 
               fillOpacity = 0.4,
               fillColor = "pink"
   ) %>%
@@ -66,3 +66,8 @@ map <- leaflet(counties_shp) %>%
 #hover action?
 #download printable version button
 ```
+
+```{r}
+map
+```
+
