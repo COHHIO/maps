@@ -1,0 +1,68 @@
+---
+title: "Ohio Balance of State CoC Homeless Planning Regions"
+author: "COHHIO"
+date: "6/22/2020"
+output: html_document
+---
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+```{r pkgsetup, message=FALSE, include=FALSE}
+library(raster)     # functions for working with raster/vector data
+library(sp)         # foundational spatial data package
+library(rgdal)      # R interface to the C/C++ library gdal 
+library(rgeos)      # R interface to vector processing library geos 
+library(tidyverse)  
+library(RColorBrewer) # for visualization colors
+library(viridis)      # for visualization colors
+library(leaflet)      # R interface to JavaScript library leaflet
+library(RCurl)        # for reading in github file
+library(leaflet.providers)   #for background maps
+library(leafem)       #for static county labels
+```
+
+```{r shapefile, include=FALSE}
+us <- getData('GADM', country='USA', level=2)
+ohio_shp <- subset(us, NAME_1 == "Ohio")
+counties_shp <- subset(ohio_shp, NAME_2 != "Lake Erie")
+```
+
+```{r import, include=FALSE}
+#regions_raw <- getURL("https://raw.github.com/aronlindberg/latent_growth_classes/master/LGC_data.csv")
+#regions_table <- read.csv(text = regions_raw)
+
+counties_regions_table <- read.csv("data/counties_and_regions.csv")
+
+```
+
+```{r map}
+map <- leaflet(counties_shp) %>%
+  #addProviderTiles(providers$CartoDB.PositronNoLabels) %>% 
+  addPolygons(color = "black", 
+              weight = 1, 
+              opacity = .3, 
+              fillOpacity = 0.4,
+              fillColor = "pink"
+  ) %>%
+  addStaticLabels(.,
+                  label = counties_shp$NAME_2,
+                  style = list("color" = "black", "font-weight" = "bold",
+                               "font-size" = ".6em")
+                  )
+  
+  map
+
+
+
+#load in ohio map
+#load csv with counties and regions
+#combine shape with list of regions
+#slash out other CoCs. Wait. I have CoC shapefiles from HUD?
+#outline counties in gray or black
+#label counties
+#color each region. 17 colors. something from R minor or the colors on my desktop.
+#hover action?
+#download printable version button
+```
